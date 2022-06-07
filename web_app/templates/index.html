@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <style type="text/css">
+      body {
+        font-family: Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <hr />
+          <h1 class="display-4">AI StarterKit</h1>
+          <hr />
+          <h2 id="temp" class="display-5">【温度】未更新</h2>
+          <hr />
+          <h5 class="display-5">【更新時刻】</h4>
+          <h5 id="date" class="display-5"></h4>
+          <hr />
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      // テキストエリアの更新
+      socket.on("temp_update", function(msg) {
+        document.getElementById("temp").innerHTML = "【温度】" + msg.temp + "℃"
+        document.getElementById("date").innerHTML = msg.date
+      });
+
+      setInterval(()=>{
+        socket.emit('temp_update_request', {});
+      }, 1000)
+    </script>
+  </body>
+</html>
